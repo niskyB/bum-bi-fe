@@ -24,3 +24,127 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Override Ant Design DatePicker hover/focus border color (keep error status intact) */
+.ant-picker:not(.ant-picker-status-error):hover,
+.ant-picker:not(.ant-picker-status-error).ant-picker-focused,
+.ant-picker:not(.ant-picker-status-error):focus-within {
+  border-color: #FD4D5F !important;
+}
+
+/* Override Ant Design Select hover/focus border color (keep error status intact) */
+.ant-select:not(.ant-select-status-error) .ant-select-selector:hover {
+  border-color: #FD4D5F !important;
+}
+
+.ant-select:not(.ant-select-status-error).ant-select-focused .ant-select-selector,
+.ant-select:not(.ant-select-status-error) .ant-select-selector:focus {
+  border-color: #FD4D5F !important;
+}
+
+/* Override Ant Design Input hover/focus border color with maximum specificity */
+.custom-search-input.ant-input-affix-wrapper:hover .ant-input,
+.custom-search-input.ant-input-affix-wrapper:hover {
+  border-color: #9ca3af !important;
+}
+
+.custom-search-input.ant-input-affix-wrapper:focus .ant-input,
+.custom-search-input.ant-input-affix-wrapper:focus-within .ant-input,
+.custom-search-input.ant-input-affix-wrapper.ant-input-affix-wrapper-focused .ant-input,
+.custom-search-input.ant-input-affix-wrapper:focus,
+.custom-search-input.ant-input-affix-wrapper:focus-within,
+.custom-search-input.ant-input-affix-wrapper.ant-input-affix-wrapper-focused {
+  outline: none !important;
+}
+
+/* Override CSS variables */
+.custom-search-input,
+.bumbi-search-input {
+  --ant-color-primary: #FD4D5F !important;
+  --ant-color-primary-hover: #FD4D5F !important;
+  --ant-color-primary-active: #FD4D5F !important;
+  --ant-color-primary-border: #FD4D5F !important;
+  --ant-color-primary-border-hover: #FD4D5F !important;
+}
+
+/* Force override all possible Ant Design Input states */
+.ant-input-affix-wrapper.bumbi-search-input * {
+  --ant-color-primary: #FD4D5F !important;
+  --ant-color-primary-hover: #FD4D5F !important;
+  --ant-color-primary-active: #FD4D5F !important;
+}
+
+/* Nuclear option - override all possible Ant Design Input states */
+.ant-input-affix-wrapper.custom-search-input:hover,
+.ant-input-affix-wrapper.custom-search-input:focus,
+.ant-input-affix-wrapper.custom-search-input:focus-within,
+.ant-input-affix-wrapper.custom-search-input.ant-input-affix-wrapper-focused {
+  border-color: #FD4D5F !important;
+  outline: none !important;
+}
+
+.ant-input-affix-wrapper.custom-search-input:hover {
+  border-color: #FD4D5F !important;
+}
+
+/* Even more specific overrides for bumbi-search-input */
+.bumbi-search-input.ant-input-affix-wrapper:hover,
+.bumbi-search-input.ant-input-affix-wrapper:focus,
+.bumbi-search-input.ant-input-affix-wrapper:focus-within,
+.bumbi-search-input.ant-input-affix-wrapper.ant-input-affix-wrapper-focused {
+  border-color: #FD4D5F !important;
+  outline: none !important;
+}
+
+/* Ant Design Table Pagination Styling */
+.ant-pagination .ant-pagination-item {
+  border-color: #d9d9d9;
+}
+
+.ant-pagination .ant-pagination-item:hover {
+  border-color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-item:hover a {
+  color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  border-color: #FD4D5F !important;
+  background-color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: #ffffff !important;
+}
+
+.ant-pagination .ant-pagination-prev:hover,
+.ant-pagination .ant-pagination-next:hover {
+  border-color: #FD4D5F !important;
+  color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination .ant-pagination-next:hover .ant-pagination-item-link {
+  color: #FD4D5F !important;
+  border-color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-jump-prev:hover .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination .ant-pagination-jump-next:hover .ant-pagination-item-container .ant-pagination-item-link-icon {
+  color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-jump-prev:hover .ant-pagination-item-container .ant-pagination-item-ellipsis,
+.ant-pagination .ant-pagination-jump-next:hover .ant-pagination-item-container .ant-pagination-item-ellipsis {
+  color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-options .ant-select .ant-select-selector:hover {
+  border-color: #FD4D5F !important;
+}
+
+.ant-pagination .ant-pagination-options .ant-select.ant-select-focused .ant-select-selector {
+  border-color: #FD4D5F !important;
+  box-shadow: 0 0 0 2px rgba(253, 77, 95, 0.2) !important;
+}

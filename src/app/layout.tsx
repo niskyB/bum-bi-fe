@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { RootLayout as CustomRootLayout } from "../components/RootLayout";
+import NotificationWrapper from "main/HOC/NotificationWrapper";
+import QueryClientProvider from "main/HOC/QueryClientProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <NotificationWrapper>
+          <QueryClientProvider>
+            <CustomRootLayout>{children}</CustomRootLayout>
+          </QueryClientProvider>
+        </NotificationWrapper>
       </body>
     </html>
   );
