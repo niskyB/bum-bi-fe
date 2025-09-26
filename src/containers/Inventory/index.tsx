@@ -27,10 +27,12 @@ const Inventory: FunctionComponent<InventoryProps> = () => {
   const { data: products, isLoading: isProductsLoading } = useGetProducts();
 
   const dataTable = useMemo(() => {
-    return products?.map((product, index) => ({
-      stt: index + 1,
-      ...product,
-    }));
+    return products
+      ?.filter((product) => product.quantity > 0)
+      ?.map((product, index) => ({
+        stt: index + 1,
+        ...product,
+      }));
   }, [products]);
 
   return (
