@@ -108,6 +108,12 @@ const OrderDetail: FunctionComponent<OrderProps> = () => {
             </p>
           </div>
           <div className="flex gap-2">
+            <label className="font-medium">Đã giảm giá:</label>
+            <p className="font-semibold text-red-600">
+              {vietnameseCurrencyFormatter.format(order.discount || 0)}
+            </p>
+          </div>
+          <div className="flex gap-2">
             <label className="font-medium">Lợi nhuận:</label>
             <p className="font-semibold text-blue-600">
               {vietnameseCurrencyFormatter.format(order.profit)}
@@ -119,7 +125,7 @@ const OrderDetail: FunctionComponent<OrderProps> = () => {
       {/* Order Items Table */}
       <div className="flex-1 min-h-0">
         <h2 className="text-lg font-semibold mb-4">Chi tiết sản phẩm</h2>
-        <div className="h-[550px] overflow-auto">
+        <div className="h-[510px] overflow-auto">
           <Table
             columns={columns}
             dataSource={dataTable}

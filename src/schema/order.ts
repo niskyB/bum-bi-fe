@@ -18,6 +18,9 @@ export const orderItemSchema = object({
 export const createOrderSchema = object({
   customerId: number().required("Customer is required"),
   date: string().required("Date is required"),
+  discount: number()
+    .required("Discount is required")
+    .min(0, "Discount must be positive"),
   orderItems: array()
     .of(orderItemSchema)
     .required("Products are required")

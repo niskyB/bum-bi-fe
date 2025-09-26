@@ -13,5 +13,6 @@ export interface Order {
   customerName: string;
   totalAmount: number;
   profit: number;
+  discount?: number;
   orderItems: OrderItem[];
 }

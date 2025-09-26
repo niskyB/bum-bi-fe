@@ -1,6 +1,7 @@
 export type CreateOrderValues = {
   customerId: number;
   date: string;
+  discount: number;
   orderItems: OrderItem[];
 };
 

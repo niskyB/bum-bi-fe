@@ -392,6 +392,7 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
     reValidateMode: "onSubmit", // Only re-validate on submit
     defaultValues: {
       date: new Date().toLocaleDateString("en-GB"), // DD/MM/YYYY format for DatePicker
+      discount: 0,
       orderItems: [],
     },
   });
@@ -406,11 +407,17 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
     return Number(result.toFixed(2));
   };
 
-  // Watch orderItems for changes to make totals reactive
+  // Watch orderItems and discount for changes to make totals reactive
   const orderItems = useWatch({
     control: methods.control,
     name: "orderItems",
     defaultValue: [],
+  });
+
+  const discount = useWatch({
+    control: methods.control,
+    name: "discount",
+    defaultValue: 0,
   });
 
   // Calculate total unitPrice and total profit (reactive)
@@ -426,8 +433,15 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
       return sum + (Number(item?.profit) || 0);
     }, 0);
 
-    return { totalUnitPrice, totalProfit };
-  }, [orderItems]);
+    const finalTotalPrice = Math.max(
+      0,
+      totalUnitPrice - (Number(discount) || 0)
+    );
+
+    const finalTotalProfit = Math.max(0, totalProfit - (Number(discount) || 0));
+
+    return { totalUnitPrice: finalTotalPrice, totalProfit: finalTotalProfit };
+  }, [orderItems, discount]);
 
   const onRemoveOderItem = (index: number) => {
     remove(index);
@@ -601,6 +615,31 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
                       )}
                     />
                   </div>
+
+                  <div className="flex-1">
+                    <label
+                      className="cursor-pointer select-none text-sm"
+                      htmlFor="shippingFee"
+                    >
+                      Giảm giá
+                    </label>
+                    <Controller
+                      name="discount"
+                      control={methods.control}
+                      render={({ field }) => (
+                        <CurrencyInput
+                          {...field}
+                          name="discount"
+                          placeholder="0 VND"
+                          className="block px-4 py-[9px] intro-x login__input min-w-full"
+                          onValueChange={(value: string | undefined) => {
+                            const numericValue = parseFloat(value || "0");
+                            field.onChange(numericValue);
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
                   <div className="flex-1">
                     <SelectFieldC
                       label="Khách hàng"
@@ -693,7 +732,7 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
                     type="submit"
                     variant="primary"
                     className="btn btn-primary"
-                    // isLoading={isCreating}
+                    isLoading={isLoading}
                   >
                     Tạo đơn
                   </Button>
