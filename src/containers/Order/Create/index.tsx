@@ -438,7 +438,7 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
       totalUnitPrice - (Number(discount) || 0)
     );
 
-    const finalTotalProfit = Math.max(0, totalProfit - (Number(discount) || 0));
+    const finalTotalProfit = totalProfit - (Number(discount) || 0);
 
     return { totalUnitPrice: finalTotalPrice, totalProfit: finalTotalProfit };
   }, [orderItems, discount]);
