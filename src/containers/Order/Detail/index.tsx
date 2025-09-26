@@ -76,7 +76,7 @@ const OrderDetail: FunctionComponent<OrderProps> = () => {
   }
 
   return (
-    <div className="flex flex-col py-10 space-y-10 mt-10">
+    <div className="flex flex-col py-4 space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Chi tiết đơn hàng #{order.id}</h1>
         <Button
@@ -90,7 +90,7 @@ const OrderDetail: FunctionComponent<OrderProps> = () => {
       </div>
 
       {/* Order Information */}
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-2 rounded-lg shadow">
         <h2 className="text-lg font-semibold mb-4">Thông tin đơn hàng</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex gap-2">
@@ -117,17 +117,19 @@ const OrderDetail: FunctionComponent<OrderProps> = () => {
       </div>
 
       {/* Order Items Table */}
-      <div>
+      <div className="flex-1 min-h-0">
         <h2 className="text-lg font-semibold mb-4">Chi tiết sản phẩm</h2>
-        <Table
-          columns={columns}
-          dataSource={dataTable}
-          loading={isLoading}
-          pagination={{ position: ["bottomRight"] }}
-          scroll={{
-            x: "max-content",
-          }}
-        />
+        <div className="h-[550px] overflow-auto">
+          <Table
+            columns={columns}
+            dataSource={dataTable}
+            pagination={false}
+            loading={isLoading}
+            sticky={{
+              offsetHeader: 0,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -83,6 +83,7 @@ const createOrderItemColumns = (
     title: "Mã hàng hóa",
     key: "code",
     dataIndex: "code",
+    width: 142,
     render: (_: any, record: any, index: number) => (
       <TextFieldC
         label=""
@@ -98,6 +99,7 @@ const createOrderItemColumns = (
     title: "Tên hàng hóa",
     key: "name",
     dataIndex: "name",
+    width: 200,
     render: (_: any, record: any, index: number) => (
       <TextFieldC
         label=""
@@ -113,6 +115,7 @@ const createOrderItemColumns = (
     title: "Đơn vị tính",
     key: "unit",
     dataIndex: "unit",
+    width: 120,
     render: (_: any, record: any, index: number) => (
       <TextFieldC
         name={`orderItems.${index}.unit`}
@@ -128,6 +131,7 @@ const createOrderItemColumns = (
     title: "Số lượng",
     key: "amount",
     dataIndex: "amount",
+    width: 90,
     render: (_: any, record: any, index: number) => (
       <TextFieldC
         name={`orderItems.${index}.amount`}
@@ -234,6 +238,7 @@ const createOrderItemColumns = (
     title: "Giá vốn",
     key: "unitCost",
     dataIndex: "cost",
+    width: 120,
     render: (_: any, record: any, index: number) => (
       <Controller
         name={`orderItems.${index}.unitCost`}
@@ -254,6 +259,7 @@ const createOrderItemColumns = (
     title: "Giá bán",
     key: "unitPrice",
     dataIndex: "unitPrice",
+    width: 120,
     render: (_: any, record: any, index: number) => (
       <Controller
         name={`orderItems.${index}.unitPrice`}
@@ -274,6 +280,7 @@ const createOrderItemColumns = (
     title: "Lợi nhuận",
     key: "profit",
     dataIndex: "profit",
+    width: 120,
     render: (_: any, record: any, index: number) => (
       <Controller
         name={`orderItems.${index}.profit`}
@@ -344,7 +351,8 @@ const createOrderItemColumns = (
     title: "",
     dataIndex: "action",
     key: "action",
-    width: 10,
+    width: 80,
+    fixed: "right" as const,
     render: (_: any, record: any, index: number) => (
       <div className="flex gap-3">
         <Button
@@ -485,11 +493,6 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
   }, [customers]);
 
   const handleProductSelect = (product: any) => {
-    const existingProduct = fields.find((p: any) => p.code === product.code);
-    if (existingProduct) {
-      return;
-    }
-
     // Calculate initial unit cost based on purchaseOrderItems
     let initialUnitCost = 0;
     let maxAmount = 0;
@@ -562,7 +565,7 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
 
   return (
     <>
-      <div className="flex flex-col py-10 space-y-4">
+      <div className="flex flex-col py-6 space-y-4 max-h-screen overflow-y-auto">
         <div className="flex justify-end">
           <Button
             variant="primary"
@@ -576,7 +579,7 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
         <BorderBox>
           <FormWrapper methods={methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 <div className="flex gap-3 w-full items-end">
                   <div className="flex-1">
                     <Controller
@@ -648,12 +651,23 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
                     </Dropdown>
                   </div>
                 </div>
-                <div>
+                <div className="">
                   <Table
                     columns={orderItemColumns}
                     dataSource={fields}
-                    pagination={false}
-                  ></Table>
+                    pagination={{
+                      position: ["bottomRight"],
+                      pageSize: 5,
+                      showSizeChanger: false,
+                      showQuickJumper: false,
+                    }}
+                    scroll={{
+                      x: 1000,
+                    }}
+                    sticky={{
+                      offsetHeader: 0,
+                    }}
+                  />
                 </div>
 
                 <div className="flex gap-3 justify-between items-center flex-col md:flex-row">
