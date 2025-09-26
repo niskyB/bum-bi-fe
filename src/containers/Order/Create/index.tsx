@@ -655,14 +655,10 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
                   <Table
                     columns={orderItemColumns}
                     dataSource={fields}
-                    pagination={{
-                      position: ["bottomRight"],
-                      pageSize: 5,
-                      showSizeChanger: false,
-                      showQuickJumper: false,
-                    }}
+                    pagination={false}
                     scroll={{
                       x: 1000,
+                      y: 450,
                     }}
                     sticky={{
                       offsetHeader: 0,
