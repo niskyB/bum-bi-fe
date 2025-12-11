@@ -6,5 +6,6 @@ export interface Dashboard {
   totalCustomers: number;
   totalSell: number;
   totalProfit: number;
+  totalProfitWithoutInternalUse: number;
   customers: Customer[];
 }

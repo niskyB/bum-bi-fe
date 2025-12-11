@@ -21,34 +21,46 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
       title: "Tổng doanh thu",
       key: "totalSell",
       dataIndex: "totalSell",
+      sorter: (a: any, b: any) => (a.totalSell || 0) - (b.totalSell || 0),
       render: (value: number) => vietnameseCurrencyFormatter.format(value || 0),
     },
     {
       title: "Tổng lợi nhuận",
       key: "totalProfit",
       dataIndex: "totalProfit",
+      sorter: (a: any, b: any) => (a.totalProfit || 0) - (b.totalProfit || 0),
       render: (value: number) => vietnameseCurrencyFormatter.format(value || 0),
     },
   ];
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-gray-500 text-lg">Đang tải...</div>
+      </div>
+    );
   }
 
   if (!dashboard) {
-    return <div>Dashboard data not found</div>;
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-red-500 text-lg">
+          Không tìm thấy dữ liệu dashboard
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col py-10 space-y-10 mt-10">
+    <div className="flex flex-col py-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Tổng quan</h1>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Total Orders */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-blue-100 rounded-lg">
               <svg
@@ -75,7 +87,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
         </div>
 
         {/* Total Products */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-green-100 rounded-lg">
               <svg
@@ -102,7 +114,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
         </div>
 
         {/* Total Customers */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-purple-100 rounded-lg">
               <svg
@@ -129,7 +141,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
         </div>
 
         {/* Total Sales */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-yellow-100 rounded-lg">
               <svg
@@ -158,7 +170,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
         </div>
 
         {/* Total Profit */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-red-100 rounded-lg">
               <svg
@@ -179,7 +191,11 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
               <p className="text-sm font-medium text-gray-600">
                 Tổng lợi nhuận
               </p>
-              <p className="text-2xl font-semibold text-blue-600">
+              <p
+                className={`text-2xl font-semibold ${
+                  dashboard.totalProfit >= 0 ? "text-blue-600" : "text-red-600"
+                }`}
+              >
                 {vietnameseCurrencyFormatter.format(dashboard.totalProfit)}
               </p>
             </div>
@@ -187,9 +203,50 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
         </div>
       </div>
 
+      {/* Additional Profit Card */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
+          <div className="flex items-center">
+            <div className="p-2 bg-indigo-100 rounded-lg">
+              <svg
+                className="w-6 h-6 text-indigo-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">
+                Tổng lợi nhuận không tính Bum Bi
+              </p>
+              <p
+                className={`text-2xl font-semibold ${
+                  dashboard.totalProfitWithoutInternalUse >= 0
+                    ? "text-indigo-600"
+                    : "text-red-600"
+                }`}
+              >
+                {vietnameseCurrencyFormatter.format(
+                  dashboard.totalProfitWithoutInternalUse
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Customer List */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-4">Danh sách khách hàng</h2>
+      <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">
+          Danh sách khách hàng
+        </h2>
         <Table
           columns={customerColumns}
           dataSource={dashboard.customers}
