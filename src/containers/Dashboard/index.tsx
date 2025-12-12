@@ -1,12 +1,15 @@
 import Table from "main/components/Table";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState, useMemo } from "react";
 import { vietnameseCurrencyFormatter } from "main/utils/number";
 import { useGetDashboard } from "main/hooks/dashboard";
+import { Input } from "antd";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface DashboardProps {}
 
 const Dashboard: FunctionComponent<DashboardProps> = () => {
   const { data: dashboard, isLoading } = useGetDashboard();
+  const [searchText, setSearchText] = useState("");
 
   const customerColumns = [
     { title: "ID", key: "id", dataIndex: "id" },
@@ -50,6 +53,16 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
       </div>
     );
   }
+
+  // Filter customers by name
+  const filteredCustomers = useMemo(() => {
+    if (!dashboard.customers) return [];
+    if (!searchText.trim()) return dashboard.customers;
+
+    return dashboard.customers.filter((customer) =>
+      customer.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [dashboard.customers, searchText]);
 
   return (
     <div className="flex flex-col py-6 space-y-6">
@@ -244,12 +257,24 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
 
       {/* Customer List */}
       <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow duration-200">
-        <h2 className="text-lg font-semibold mb-4 text-gray-800">
-          Danh sách khách hàng
-        </h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Danh sách khách hàng
+          </h2>
+          <div className="w-64">
+            <Input
+              placeholder="Tìm kiếm theo tên khách hàng..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              prefix={<MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />}
+              allowClear
+              className="w-full"
+            />
+          </div>
+        </div>
         <Table
           columns={customerColumns}
-          dataSource={dashboard.customers}
+          dataSource={filteredCustomers}
           loading={isLoading}
           pagination={{ position: ["bottomRight"] }}
           scroll={{
