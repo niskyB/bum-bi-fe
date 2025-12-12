@@ -646,6 +646,13 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
                       name="customerId"
                       options={customerOptions}
                       formSelectSize="lg"
+                      showSearch
+                      filterOption={(input, option) =>
+                        (option?.label ?? "")
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      placeholder="Tìm kiếm khách hàng..."
                     />
                   </div>
                 </div>
