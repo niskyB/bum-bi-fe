@@ -4,6 +4,7 @@ import FieldWrapper from "../FieldWrapper";
 import FormSelect from "../FormSelect";
 import { twMerge } from "tailwind-merge";
 import { ISelectOptions, SelectValueType } from "main/interfaces/form/select";
+import type { SelectProps } from "antd";
 
 type SelectFieldCProps<T extends SelectValueType = SelectValueType, V = any> = {
   label: string;
@@ -16,7 +17,10 @@ type SelectFieldCProps<T extends SelectValueType = SelectValueType, V = any> = {
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   formSelectSize?: "sm" | "lg";
-};
+} & Omit<
+  SelectProps,
+  "options" | "onChange" | "value" | "placeholder" | "className"
+>;
 
 const SelectFieldC: FunctionComponent<SelectFieldCProps> = ({
   label,

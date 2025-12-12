@@ -557,24 +557,41 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
   const productSearchItems = useMemo(() => {
     if (!products || products.length === 0) return [];
 
-    return products.map((product) => ({
-      key: product.id,
-      label: (
-        <div className="flex justify-between items-center p-2 cursor-pointer">
-          <div>
-            <div className="font-medium">{product.name}</div>
-            <div className="text-sm text-gray-500">Code: {product.code}</div>
-          </div>
-          <div className="text-right">
-            <div className="font-medium">
-              {vietnameseCurrencyFormatter.format(product.unitPrice)}
+    return products
+      .filter((product) => {
+        // Calculate total quantity from purchaseOrderItems
+        if (
+          !product.purchaseOrderItems ||
+          product.purchaseOrderItems.length === 0
+        ) {
+          return false;
+        }
+        const totalQuantity = product.purchaseOrderItems.reduce(
+          (sum: number, item: any) => {
+            return sum + (parseFloat(item.quantity) || 0);
+          },
+          0
+        );
+        return totalQuantity > 0;
+      })
+      .map((product) => ({
+        key: product.id,
+        label: (
+          <div className="flex justify-between items-center p-2 cursor-pointer">
+            <div>
+              <div className="font-medium">{product.name}</div>
+              <div className="text-sm text-gray-500">Code: {product.code}</div>
             </div>
-            <div className="text-sm text-gray-500">Unit: {product.unit}</div>
+            <div className="text-right">
+              <div className="font-medium">
+                {vietnameseCurrencyFormatter.format(product.unitPrice)}
+              </div>
+              <div className="text-sm text-gray-500">Unit: {product.unit}</div>
+            </div>
           </div>
-        </div>
-      ),
-      onClick: () => handleProductSelect(product),
-    }));
+        ),
+        onClick: () => handleProductSelect(product),
+      }));
   }, [products, fields.length]);
 
   return (
@@ -647,8 +664,8 @@ const OrderCreate: FunctionComponent<OrderCreateProps> = () => {
                       options={customerOptions}
                       formSelectSize="lg"
                       showSearch
-                      filterOption={(input, option) =>
-                        (option?.label ?? "")
+                      filterOption={(input: string, option?: any) =>
+                        String(option?.label ?? "")
                           .toLowerCase()
                           .includes(input.toLowerCase())
                       }

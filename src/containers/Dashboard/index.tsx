@@ -36,6 +36,16 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
     },
   ];
 
+  // Filter customers by name - must be called before early returns
+  const filteredCustomers = useMemo(() => {
+    if (!dashboard?.customers) return [];
+    if (!searchText.trim()) return dashboard.customers;
+
+    return dashboard.customers.filter((customer) =>
+      customer.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [dashboard?.customers, searchText]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -53,16 +63,6 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
       </div>
     );
   }
-
-  // Filter customers by name
-  const filteredCustomers = useMemo(() => {
-    if (!dashboard.customers) return [];
-    if (!searchText.trim()) return dashboard.customers;
-
-    return dashboard.customers.filter((customer) =>
-      customer.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [dashboard.customers, searchText]);
 
   return (
     <div className="flex flex-col py-6 space-y-6">
@@ -268,7 +268,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
               onChange={(e) => setSearchText(e.target.value)}
               prefix={<MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />}
               allowClear
-              className="w-full"
+              className="w-full inventory-filter-input"
             />
           </div>
         </div>
